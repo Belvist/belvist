@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продавец - Belvist</title>
+    <link rel="icon" type="image/png" href="/favicon.png" onerror="this.href='/api/images/default.png';">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png" onerror="this.href='/api/images/default.png';">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Unbounded', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            height: 80px;
+        }
+
+        header .catalog-btn {
+            background-color: #4a4a4a;
+            color: #fff;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        header .catalog-btn img {
+            width: 24px;
+            height: 24px;
+        }
+
+        header .logo {
+            font-size: 45px;
+            font-weight: 900;
+            line-height: 2;
+        }
+
+        header .logo a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        header .search-bar {
+            width: 550px;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 0 12px;
+            margin-left: 150px;
+        }
+
+        header .search-bar input {
+            flex: 1;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            background-color: transparent;
+            color: #000;
+            outline: none;
+        }
+
+        header .nav-icons {
+            display: flex;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        header .nav-icons .icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        header .nav-icons .icon img {
+            width: 24px;
+            height: 24px;
+        }
+
+        header .nav-icons .icon span {
+            font-size: 10px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        header .nav-icons .icon a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .seller-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            max-width: calc(341px * 5 + 20px * 4);
+            margin: 0 auto;
+        }
+
+        .seller-info img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .seller-info .details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .seller-info .details h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .seller-info .details p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            max-width: calc(341px * 5 + 20px * 4);
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background-color: #FFFFFF;
+            border-radius: 30px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 341px;
+            height: 606px;
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+            flex: 0 0 341px;
+        }
+
+        .product-card:hover {
+            transform: scale(1.02);
+        }
+
+        .product-card .image-container {
+            width: 341px;
+            height: 449px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .product-info {
+            padding: 10px;
+            height: 157px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-info .info-top {
+            height: 95px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-info h3 {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.2;
+            max-height: 34px;
+            overflow: hidden;
+            position: relative;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin-bottom: 5px;
+        }
+
+        .product-info h3.with-gradient::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, white 90%);
+            pointer-events: none;
+        }
+
+        .product-info .price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #000;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .product-info .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .product-info .buttons button {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-info .buttons .add-to-cart {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .product-info .buttons .add-to-cart::before {
+            content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18l-2 9H5z"/><path d="M5 9l-2 9h18l-2-9"/><circle cx="9" cy="21" r="1"/><circle cx="15" cy="21" r="1"/></svg>');
+            display: inline-block;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            border-radius: 30px;
+            width: 858px;
+            height: 805px;
+            padding: 20px;
+            position: relative;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 0;
+        }
+
+        .modal-content {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .modal-content .close {
+            position: sticky;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+            background-color: #fff;
+            padding: 5px;
+            z-index: 1;
+        }
+
+        .modal-content .add-to-wishlist {
+            position: sticky;
+            top: 10px;
+            left: 770px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>') no-repeat center;
+            background-size: 24px 24px;
+            width: 24px;
+            height: 24px;
+            border: none;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .modal-content .modal-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-content .image-slider {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content .image-slider img {
+            max-width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .modal-content .image-slider .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: #000;
+            cursor: pointer;
+            background: none;
+            padding: 5px 10px;
+        }
+
+        .modal-content .image-slider .arrow.left {
+            left: 10px;
+        }
+
+        .modal-content .image-slider .arrow.right {
+            right: 10px;
+        }
+
+        .modal-content .image-slider .pagination {
+            position: absolute;
+            bottom: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .modal-content .image-slider .pagination .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ccc;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-content .image-slider .pagination .dot.active {
+            width: 10px;
+            height: 10px;
+            background-color: #000;
+        }
+
+        .modal-content .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-content .product-details .category {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .modal-content .product-details h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            overflow: visible;
+            white-space: normal;
+        }
+
+        .modal-content .product-details .price {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .modal-content .product-details .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-content .product-details .buttons button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content .product-details .buttons .add-to-cart {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .modal-content .product-details .buttons .add-to-cart::before {
+            content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18l-2 9H5z"/><path d="M5 9l-2 9h18l-2-9"/><circle cx="9" cy="21" r="1"/><circle cx="15" cy="21" r="1"/></svg>');
+            display: inline-block;
+        }
+
+        .modal-content .product-details .seller-info {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #000;
+        }
+
+        .modal-content .product-details .seller-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .modal-content .product-details .seller-info span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .modal-content .full-characteristics-content {
+            margin-top: 60px;
+        }
+
+        .modal-content .full-characteristics-content h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .modal-content .full-characteristics-content .full-characteristics {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .no-products {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="catalog-btn"><img src="/emblem.png" alt="Emblem" onerror="this.src='/api/images/default.png';">КАТАЛОГ</button>
+        <div class="logo"><a href="index.html">BELVIST</a></div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="AI ПОИСК" oninput="loadProducts(this.value)">
+        </div>
+        <div class="nav-icons">
+            <div class="icon">
+                <a href="cart.html">
+                    <img src="/cart.png" alt="Cart" onerror="this.src='/api/images/default.png';">
+                    <span>КОРЗИНА</span>
+                </a>
+            </div>
+            <div class="icon" id="account-link">
+                <a href="">
+                    <img src="/profile.png" alt="Account" onerror="this.src='/api/images/default.png';">
+                    <span>АККАУНТ</span>
+                </a>
+            </div>
+            <div class="icon">
+                <a href="wishlist.html">
+                    <img src="/wishlist.png" alt="Wishlist" onerror="this.src='/api/images/default.png';">
+                    <span>ВИШ ЛИСТ</span>
+                </a>
+            </div>
+        </div>
+        <script src="header.js" defer></script>
+    </header>
+
+    <div class="seller-info" id="sellerInfo">
+        <img id="sellerIcon" src="" alt="Seller Icon">
+        <div class="details">
+            <h2 id="sellerName"></h2>
+            <p id="sellerDescription">Продавец на Belvist</p>
+        </div>
+    </div>
+
+    <div class="products" id="products-container"></div>
+
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <button class="add-to-wishlist" id="modalAddToWishlist"></button>
+            <span class="close">×</span>
+            <div class="modal-inner">
+                <div class="image-slider">
+                    <img id="modalImage" src="" alt="Product">
+                    <span class="arrow left"><</span>
+                    <span class="arrow right">></span>
+                    <div class="pagination" id="paginationDots"></div>
+                </div>
+                <div class="product-details">
+                    <div class="category" id="modalCategory"></div>
+                    <h2 id="modalTitle"></h2>
+                    <div class="price" id="modalPrice"></div>
+                    <div class="buttons">
+                        <button class="add-to-cart" id="modalAddToCart">В КОРЗИНУ</button>
+                    </div>
+                    <a class="seller-info" id="modalSellerInfo" href="">
+                        <img id="modalSellerIcon" src="" alt="Seller Icon">
+                        <span id="modalSellerName"></span>
+                    </a>
+                </div>
+                <div class="full-characteristics-content">
+                    <h3>Характеристики</h3>
+                    <div class="full-characteristics" id="modalFullCharacteristics"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('seller.html: Скрипт начал выполнение');
+
+        let currentImages = [];
+        let currentImageIndex = 0;
+
+        document.addEventListener('authCheckComplete', function () {
+            console.log('seller.html: Событие authCheckComplete получено');
+            console.log('seller.html: Проверка глобальных переменных', { isAuthenticated: window.isAuthenticated, userId: window.userId });
+
+            // Проверяем, установлены ли глобальные переменные
+            if (typeof window.isAuthenticated === 'undefined' || typeof window.userId === 'undefined') {
+                console.error('seller.html: Глобальные переменные isAuthenticated или userId не установлены');
+                return;
+            }
+
+            loadSellerData();
+        });
+
+        // Функция-заглушка на случай, если событие не сработает
+        window.addEventListener('load', function () {
+            console.log('seller.html: Событие load сработало, проверяем, было ли authCheckComplete');
+            setTimeout(() => {
+                if (typeof window.isAuthenticated === 'undefined' || typeof window.userId === 'undefined') {
+                    console.error('seller.html: authCheckComplete не сработал, переменные не установлены');
+                    document.getElementById('sellerInfo').innerHTML = '<div class="no-products">Ошибка проверки авторизации: Не удалось загрузить данные</div>';
+                    document.getElementById('products-container').innerHTML = '<div class="no-products">Товары отсутствуют</div>';
+                }
+            }, 5000); // Даем 5 секунд на выполнение header.js
+        });
+
+        function formatNumber(number) {
+            return new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 0 }).format(number);
+        }
+
+        function getLineCount(element) {
+            const lineHeight = parseFloat(getComputedStyle(element).lineHeight);
+            const height = element.scrollHeight;
+            return Math.round(height / lineHeight);
+        }
+
+        function handleResponse(response) {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const contentType = response.headers.get('Content-Type');
+            if (!contentType || !contentType.includes('application/json')) {
+                return response.text().then(text => {
+                    console.error('Ответ сервера не JSON. Content-Type:', contentType);
+                    console.error('Содержимое ответа:', text);
+                    throw new Error('Сервер вернул не JSON');
+                });
+            }
+            return response.text().then(text => {
+                if (!text) {
+                    throw new Error('Пустой ответ от сервера');
+                }
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    console.error('Не удалось разобрать JSON. Содержимое:', text);
+                    throw e;
+                }
+            });
+        }
+
+        function getImageUrl(images, altText) {
+            if (images && images.length > 0 && images[0]) {
+                return images[0]; // Используем ссылку напрямую из базы данных
+            }
+            return '/api/images/default.png'; // Реальный путь к заглушке
+        }
+
+        function loadSellerData() {
+            // Получаем seller_id из URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const sellerId = urlParams.get('seller_id');
+
+            if (!sellerId) {
+                document.getElementById('sellerInfo').innerHTML = '<div class="no-products">Продавец не найден</div>';
+                document.getElementById('products-container').innerHTML = '<div class="no-products">Товары отсутствуют</div>';
+                return;
+            }
+
+            // Загружаем информацию о продавце и его товары
+            fetch(`/api/seller.php?seller_id=${sellerId}`)
+                .then(handleResponse)
+                .then(data => {
+                    const sellerInfo = document.getElementById('sellerInfo');
+                    const productsContainer = document.getElementById('products-container');
+
+                    if (data.success) {
+                        // Отображаем информацию о продавце
+                        const sellerIcon = document.getElementById('sellerIcon');
+                        const sellerName = document.getElementById('sellerName');
+                        const sellerDescription = document.getElementById('sellerDescription');
+
+                        sellerIcon.src = data.seller.icon || '/api/images/default.png';
+                        sellerIcon.onerror = function() { this.src = '/api/images/default.png'; };
+                        sellerName.textContent = data.seller.name || 'Продавец';
+                        sellerDescription.textContent = data.seller.description || 'Продавец на Belvist';
+
+                        // Отображаем товары продавца
+                        if (data.products.length === 0) {
+                            productsContainer.innerHTML = '<div class="no-products">Товары отсутствуют</div>';
+                            return;
+                        }
+
+                        data.products.forEach(product => {
+                            const productCard = document.createElement('div');
+                            productCard.classList.add('product-card');
+                            productCard.setAttribute('data-id', product.id);
+                            productCard.setAttribute('data-images', JSON.stringify(product.images));
+                            productCard.setAttribute('data-title', product.title);
+                            productCard.setAttribute('data-price', product.price);
+                            productCard.setAttribute('data-category', product.category || 'Игрушки');
+                            productCard.setAttribute('data-characteristics', product.characteristics || 'Нет характеристик');
+                            productCard.setAttribute('data-seller-id', product.seller_id || '');
+                            productCard.setAttribute('data-seller-name', product.seller_name || '');
+                            productCard.setAttribute('data-seller-icon', product.seller_icon || '');
+
+                            const imageUrl = getImageUrl(product.images, product.title);
+                            const imageHtml = imageUrl ? `<img src="${imageUrl}" alt="${product.title}" onerror="this.src='/api/images/default.png';">` : '';
+
+                            productCard.innerHTML = `
+                                <div class="image-container">
+                                    ${imageHtml}
+                                </div>
+                                <div class="product-info">
+                                    <div class="info-top">
+                                        <h3>${product.title}</h3>
+                                        <div class="price">${formatNumber(product.price)} ₽</div>
+                                    </div>
+                                    <div class="buttons">
+                                        <button class="add-to-cart" onclick="addToCart(${product.id}, event)">В КОРЗИНУ</button>
+                                    </div>
+                                </div>
+                            `;
+                            productsContainer.appendChild(productCard);
+                        });
+
+                        document.querySelectorAll('.product-info h3').forEach(title => {
+                            const lineCount = getLineCount(title);
+                            if (lineCount === 2) {
+                                title.classList.add('with-gradient');
+                            }
+                        });
+
+                        addProductCardListeners();
+                    } else {
+                        console.error('Ошибка загрузки данных продавца:', data.error);
+                        sellerInfo.innerHTML = '<div class="no-products">Ошибка загрузки данных продавца: ' + (data.error || 'Неизвестная ошибка') + '</div>';
+                        productsContainer.innerHTML = '<div class="no-products">Товары отсутствуют</div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки данных продавца:', error);
+                    document.getElementById('sellerInfo').innerHTML = '<div class="no-products">Ошибка загрузки данных продавца: ' + error.message + '</div>';
+                    document.getElementById('products-container').innerHTML = '<div class="no-products">Товары отсутствуют</div>';
+                });
+        }
+
+        function addToCart(productId, event) {
+            if (!window.isAuthenticated) {
+                alert('Пожалуйста, войдите в аккаунт');
+                return;
+            }
+
+            if (event) {
+                event.stopPropagation();
+            }
+
+            fetch('/api/add_to_cart.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ product_id: productId })
+            })
+                .then(handleResponse)
+                .then(data => {
+                    if (data.success) {
+                        alert('Товар добавлен в корзину!');
+                    } else {
+                        alert(data.error || 'Ошибка добавления в корзину');
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка добавления в корзину:', error);
+                    alert('Ошибка добавления в корзину: ' + error.message);
+                });
+        }
+
+        function addToWishlist(productId) {
+            if (!window.isAuthenticated) {
+                alert('Пожалуйста, войдите в аккаунт');
+                return;
+            }
+
+            fetch('/api/add_to_wishlist.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ product_id: productId })
+            })
+                .then(handleResponse)
+                .then(data => {
+                    if (data.success) {
+                        alert('Товар добавлен в вишлист!');
+                    } else {
+                        alert(data.error || 'Ошибка добавления в вишлист');
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка добавления в вишлист:', error);
+                    alert('Ошибка добавления в вишлист: ' + error.message);
+                });
+        }
+
+        function addProductCardListeners() {
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('add-to-cart')) {
+                        return;
+                    }
+
+                    const productId = card.getAttribute('data-id');
+                    const images = JSON.parse(card.getAttribute('data-images'));
+                    const title = card.getAttribute('data-title');
+                    const price = card.getAttribute('data-price');
+                    const category = card.getAttribute('data-category');
+                    const characteristics = card.getAttribute('data-characteristics');
+                    const sellerId = card.getAttribute('data-seller-id');
+                    const sellerName = card.getAttribute('data-seller-name');
+                    const sellerIcon = card.getAttribute('data-seller-icon');
+
+                    currentImages = images;
+                    currentImageIndex = 0;
+                    const imageUrl = getImageUrl(currentImages, title);
+                    const modalImage = document.getElementById('modalImage');
+                    if (imageUrl) {
+                        modalImage.src = imageUrl;
+                        modalImage.onerror = function() { this.src = '/api/images/default.png'; };
+                    } else {
+                        modalImage.src = '/api/images/default.png';
+                    }
+                    document.getElementById('modalTitle').textContent = title;
+                    document.getElementById('modalCategory').textContent = category;
+                    document.getElementById('modalPrice').textContent = `${formatNumber(price)} ₽`;
+                    document.getElementById('modalFullCharacteristics').innerHTML = characteristics.replace(/\n/g, '<br>');
+
+                    const modalSellerInfo = document.getElementById('modalSellerInfo');
+                    const modalSellerIcon = document.getElementById('modalSellerIcon');
+                    const modalSellerName = document.getElementById('modalSellerName');
+                    if (sellerId && sellerName) {
+                        modalSellerInfo.style.display = 'flex';
+                        modalSellerInfo.href = `seller.html?seller_id=${sellerId}`;
+                        modalSellerIcon.src = sellerIcon || '/api/images/default.png';
+                        modalSellerIcon.onerror = function() { this.src = '/api/images/default.png'; };
+                        modalSellerName.textContent = sellerName;
+                    } else {
+                        modalSellerInfo.style.display = 'none';
+                    }
+
+                    const modalAddToCartButton = document.getElementById('modalAddToCart');
+                    const newCartButton = modalAddToCartButton.cloneNode(true);
+                    modalAddToCartButton.parentNode.replaceChild(newCartButton, modalAddToCartButton);
+                    newCartButton.addEventListener('click', (event) => {
+                        addToCart(productId, event);
+                    });
+
+                    const modalAddToWishlistButton = document.getElementById('modalAddToWishlist');
+                    const newWishlistButton = modalAddToWishlistButton.cloneNode(true);
+                    modalAddToWishlistButton.parentNode.replaceChild(newWishlistButton, modalAddToWishlistButton);
+                    newWishlistButton.addEventListener('click', () => {
+                        addToWishlist(productId);
+                    });
+
+                    createPaginationDots(currentImages.length);
+                    document.getElementById('productModal').style.display = 'flex';
+                });
+            });
+        }
+
+        function createPaginationDots(count) {
+            const paginationDots = document.getElementById('paginationDots');
+            paginationDots.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (i === currentImageIndex) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    currentImageIndex = i;
+                    updateModalImage();
+                });
+                paginationDots.appendChild(dot);
+            }
+        }
+
+        function updateModalImage() {
+            const modalImage = document.getElementById('modalImage');
+            const imageUrl = getImageUrl(currentImages, document.getElementById('modalTitle').textContent);
+            if (imageUrl) {
+                modalImage.src = currentImages[currentImageIndex];
+                modalImage.onerror = function() { this.src = '/api/images/default.png'; };
+            } else {
+                modalImage.src = '/api/images/default.png';
+            }
+            document.querySelectorAll('#paginationDots .dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentImageIndex);
+            });
+        }
+
+        document.querySelector('.modal-content .arrow.left').addEventListener('click', () => {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                updateModalImage();
+            }
+        });
+
+        document.querySelector('.modal-content .arrow.right').addEventListener('click', () => {
+            if (currentImageIndex < currentImages.length - 1) {
+                currentImageIndex++;
+                updateModalImage();
+            }
+        });
+
+        document.querySelector('.modal-content .close').addEventListener('click', () => {
+            document.getElementById('productModal').style.display = 'none';
+        });
+
+        document.getElementById('productModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('productModal')) {
+                document.getElementById('productModal').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аккаунт - Belvist</title>
+    <!-- Favicon для браузеров (увеличили размер до 64x64) -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- Apple Touch Icon для iOS (180x180) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Unbounded', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            height: 80px;
+        }
+
+        header .catalog-btn {
+            background-color: #4a4a4a;
+            color: #fff;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        header .catalog-btn img {
+            width: 24px;
+            height: 24px;
+        }
+
+        header .logo {
+            font-size: 45px;
+            font-weight: 900;
+            line-height: 2;
+        }
+
+        header .logo a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        header .search-bar {
+            width: 550px;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 0 12px;
+            margin-left: 150px;
+        }
+
+        header .search-bar input {
+            flex: 1;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            background-color: transparent;
+            color: #000;
+            outline: none;
+        }
+
+        header .nav-icons {
+            display: flex;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        header .nav-icons .icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        header .nav-icons .icon img {
+            width: 24px;
+            height: 24px;
+        }
+
+        header .nav-icons .icon span {
+            font-size: 10px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        header .nav-icons .icon a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .account-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        .account-container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .account-container .info {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .account-container .info p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .account-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .account-container button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="catalog-btn"><img src="emblem.png" alt="Emblem">КАТАЛОГ</button>
+        <div class="logo"><a href="index.html">BELVIST</a></div>
+        <div class="search-bar">
+            <input type="text" placeholder="AI ПОИСК">
+        </div>
+        <div class="nav-icons">
+            <div class="icon">
+                <a href="cart.html">
+                    <img src="корзина.png" alt="Cart">
+                    <span>КОРЗИНА</span>
+                </a>
+            </div>
+            <div class="icon">
+                <a href="login.html" id="account-link">
+                    <img src="аккаунт.png" alt="Account">
+                    <span>ВОЙТИ</span>
+                </a>
+            </div>
+            <div class="icon">
+                <a href="wishlist.html">
+                    <img src="виш лист.png" alt="Wishlist">
+                    <span>ВИШ ЛИСТ</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="account-container">
+        <h2>АККАУНТ</h2>
+        <div class="info">
+            <p><strong>Имя:</strong> <span id="user-name"></span></p>
+            <p><strong>Номер телефона:</strong> <span id="user-phone"></span></p>
+            <p><strong>ID:</strong> <span id="user-id"></span></p>
+        </div>
+        <button onclick="showChangePhoneForm()">ИЗМЕНИТЬ НОМЕР ТЕЛЕФОНА</button>
+        <button onclick="showChangePasswordForm()">ИЗМЕНИТЬ ПАРОЛЬ</button>
+        <button onclick="logout()">ВЫЙТИ</button>
+    </div>
+
+    <script src="header.js"></script>
+    <script>
+        // Загрузка данных пользователя
+        fetch('api/check_auth.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.isAuthenticated) {
+                    fetch('api/get_user.php')
+                        .then(response => response.json())
+                        .then(userData => {
+                            if (userData.success) {
+                                document.getElementById('user-name').innerHTML = userData.user.name;
+                                document.getElementById('user-phone').innerHTML = userData.user.phone;
+                                document.getElementById('user-id').innerHTML = userData.user.id;
+                            } else {
+                                document.getElementById('user-name').innerHTML = 'Ошибка загрузки данных';
+                                document.getElementById('user-phone').innerHTML = 'Ошибка загрузки данных';
+                                document.getElementById('user-id').innerHTML = 'Ошибка загрузки данных';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Ошибка загрузки данных пользователя:', error);
+                            document.getElementById('user-name').innerHTML = 'Ошибка загрузки данных';
+                            document.getElementById('user-phone').innerHTML = 'Ошибка загрузки данных';
+                            document.getElementById('user-id').innerHTML = 'Ошибка загрузки данных';
+                        });
+                } else {
+                    window.location.href = 'login.html';
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка проверки авторизации:', error);
+                window.location.href = 'login.html';
+            });
+
+        function showChangePhoneForm() {
+            const newPhone = prompt('Введите новый номер телефона (+7XXXXXXXXXX):');
+            if (newPhone) {
+                fetch('api/update_phone.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: newPhone })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Номер телефона успешно изменён!');
+                            window.location.reload();
+                        } else {
+                            alert(data.error || 'Ошибка изменения номера телефона');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка изменения номера телефона:', error);
+                        alert('Ошибка изменения номера телефона: ' + error.message);
+                    });
+            }
+        }
+
+        function showChangePasswordForm() {
+            const oldPassword = prompt('Введите старый пароль:');
+            const newPassword = prompt('Введите новый пароль:');
+            if (oldPassword && newPassword) {
+                fetch('api/update_password.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ old_password: oldPassword, new_password: newPassword })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Пароль успешно изменён!');
+                            window.location.reload();
+                        } else {
+                            alert(data.error || 'Ошибка изменения пароля');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка изменения пароля:', error);
+                        alert('Ошибка изменения пароля: ' + error.message);
+                    });
+            }
+        }
+
+        function logout() {
+            fetch('api/logout.php', {
+                method: 'POST'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = 'login.html';
+                    } else {
+                        alert(data.error || 'Ошибка выхода');
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка выхода:', error);
+                    alert('Ошибка выхода: ' + error.message);
+                });
+        }
+    </script>
+</body>
+</html>

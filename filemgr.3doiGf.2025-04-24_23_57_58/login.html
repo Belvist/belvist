@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход - Belvist</title>
+    <!-- Favicon для браузеров (увеличили размер до 64x64) -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- Apple Touch Icon для iOS (180x180) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Unbounded', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            height: 80px;
+        }
+
+        header .catalog-btn {
+            background-color: #4a4a4a;
+            color: #fff;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        header .catalog-btn img {
+            width: 24px;
+            height: 24px;
+        }
+
+        header .logo {
+            font-size: 45px;
+            font-weight: 900;
+            line-height: 2;
+        }
+
+        header .logo a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        header .search-bar {
+            width: 550px;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 0 12px;
+            margin-left: 150px;
+        }
+
+        header .search-bar input {
+            flex: 1;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            background-color: transparent;
+            color: #000;
+            outline: none;
+        }
+
+        header .nav-icons {
+            display: flex;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        header .nav-icons .icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        header .nav-icons .icon img {
+            width: 24px;
+            height: 24px;
+        }
+
+        header .nav-icons .icon span {
+            font-size: 10px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        header .nav-icons .icon a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        .login-container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .login-container .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .login-container label {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-container button:hover {
+            background-color: #333;
+        }
+
+        .login-container .link {
+            margin-top: 15px;
+            font-size: 12px;
+        }
+
+        .login-container .link a {
+            color: #000;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="catalog-btn"><img src="emblem.png" alt="Emblem">КАТАЛОГ</button>
+        <div class="logo"><a href="index.html">BELVIST</a></div>
+        <div class="search-bar">
+            <input type="text" placeholder="AI ПОИСК">
+        </div>
+        <div class="nav-icons">
+            <div class="icon">
+                <a href="cart.html">
+                    <img src="корзина.png" alt="Cart">
+                    <span>КОРЗИНА</span>
+                </a>
+            </div>
+            <div class="icon">
+                <a href="login.html" id="account-link">
+                    <img src="аккаунт.png" alt="Account">
+                    <span>ВОЙТИ</span>
+                </a>
+            </div>
+            <div class="icon">
+                <a href="wishlist.html">
+                    <img src="виш лист.png" alt="Wishlist">
+                    <span>ВИШ ЛИСТ</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="login-container">
+        <h2>Вход</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="phone">Номер телефона</label>
+                <input type="tel" id="phone" name="phone" placeholder="+7 (XXX) XXX-XX-XX" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+            </div>
+            <button type="submit">Войти</button>
+        </form>
+        <div class="link">
+            Нет аккаунта? <a href="register.html">Зарегистрироваться</a>
+        </div>
+    </div>
+
+    <script src="header.js"></script>
+    <script>
+        // Форматирование номера телефона
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('focus', function () {
+            if (!phoneInput.value) {
+                phoneInput.value = '+7';
+            }
+        });
+
+        phoneInput.addEventListener('input', function () {
+            let value = phoneInput.value.replace(/[^\d]/g, '');
+            if (value.startsWith('7') || value.startsWith('8')) {
+                value = value.slice(1);
+            }
+            if (value.length > 10) {
+                value = value.slice(0, 10);
+            }
+            phoneInput.value = '+7' + value;
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+
+            if (!phone || !password) {
+                alert('Заполните все поля');
+                return;
+            }
+
+            if (!/^\+7\d{10}$/.test(phone)) {
+                alert('Номер телефона должен содержать ровно 10 цифр после +7');
+                return;
+            }
+
+            fetch('api/login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone, password })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = 'index.html';
+                    } else {
+                        alert(data.error || 'Ошибка входа');
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка входа:', error);
+                    alert('Ошибка входа: ' + error.message);
+                });
+        });
+    </script>
+</body>
+</html>
